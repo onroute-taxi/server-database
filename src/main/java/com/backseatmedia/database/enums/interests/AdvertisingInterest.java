@@ -1,0 +1,30 @@
+package com.backseatmedia.database.enums.interests;
+
+
+public enum AdvertisingInterest {
+    ARTS_ENTERTAINMENT,
+    AUTOS_VEHICLES,
+    BEAUTY_FITNESS,
+    BOOKS_LITERATURE,
+    BUSINESS_INDUSTRIAL,
+    COMPUTERS_ELECTRONICS,
+    FINANCE,
+    FOOD_DRINK,
+    GAMES,
+    HOBBIES_LEISURE,
+    HOME_GARDEN,
+    INTERNET_TELECOM,
+    JOBS_EDUCATION,
+    LAW_GOVERNMENT,
+    NEWS,
+    ONLINE_COMMUNITIES,
+    PEOPLE_SOCIETY,
+    PETS_ANIMALS,
+    REAL_ESTATE,
+    REFERENCE,
+    SCIENCE,
+    SHOPPING,
+    SPORTS,
+    TRAVEL,
+    WORLD_LOCALITIES,
+}
