@@ -1,0 +1,10 @@
+LOAD CSV FROM 'http://localhost:8000/movies-2.csv' AS line
+
+CREATE (:Movie {
+  title: line[0],
+  studio: line[1],
+  rating: line[2],
+  year: toInt(line[3]),
+  genre: line[4],
+  duration: round((rand() * 2 * 60)) + 60
+})
