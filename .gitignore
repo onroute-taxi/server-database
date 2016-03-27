@@ -1,0 +1,13 @@
+/neo4j
+/target
+/data/graph.db
+/data/dbms/auth
+/config/ssl
+
+# Temp files
+/tmp
+*.note
+
+# intellji files
+/.idea
+/*.iml
