@@ -1,8 +1,7 @@
-/neo4j
+/neo4j*
 /target
-/data/graph.db
-/data/dbms/auth
 /config/ssl
+/data
 
 # Temp files
 /tmp
