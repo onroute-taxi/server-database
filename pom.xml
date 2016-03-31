@@ -50,25 +50,21 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
             <version>${neo4j.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-enterprise</artifactId>
             <version>${neo4j.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.neo4j.app</groupId>
             <artifactId>neo4j-server-enterprise</artifactId>
             <version>${neo4j.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
             <version>${neo4j.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--Graphware & Neo4 spatial - Neo4J extra libraries-->
@@ -110,17 +106,6 @@
             <version>0.9.0</version>
         </dependency>
 
-        <!--MongoDB libraries-->
-        <!--<dependency>-->
-        <!--<groupId>org.mongodb</groupId>-->
-        <!--<artifactId>mongodb-driver</artifactId>-->
-        <!--<version>3.0.4</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.mongodb</groupId>-->
-        <!--<artifactId>bson</artifactId>-->
-        <!--<version>3.0.4</version>-->
-        <!--</dependency>-->
 
         <!-- Misc. utilities) -->
         <dependency>
@@ -163,6 +148,7 @@
             <version>2.5</version>
         </dependency>
 
+
         <!--Dagger for dependency injection-->
         <dependency>
             <groupId>com.squareup.dagger</groupId>
@@ -175,6 +161,7 @@
             <version>1.2.2</version>
             <optional>true</optional>
         </dependency>
+
 
         <!--Tests-->
         <dependency>
@@ -199,14 +186,7 @@
 
     <build>
         <finalName>Neo4jServer</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-            </resource>
-            <resource>
-                <directory>../../src/main/resources</directory>
-            </resource>
-        </resources>
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -217,86 +197,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.2</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Main-Class>
-                                            de.oliverwetterau.neo4j.websockets.server.WebsocketsKernelExtensionFactory
-                                        </Main-Class>
-                                    </manifestEntries>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.handlers</resource>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.schemas</resource>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.factories</resource>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.8</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <complianceLevel>${java.version}</complianceLevel>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <showWeaveInfo>true</showWeaveInfo>
-                    <weaveDependencies>
-                        <dependency>
-                            <groupId>de.oliverwetterau.neo4j</groupId>
-                            <artifactId>websockets-server</artifactId>
-                        </dependency>
-                    </weaveDependencies>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
