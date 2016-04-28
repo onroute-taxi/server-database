@@ -2,6 +2,7 @@
 /target
 /config/ssl
 /data
+/dependency-reduced-pom.xml
 
 # Temp files
 /tmp
