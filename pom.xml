@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>backseatmedia_db</groupId>
-    <artifactId>backseatmedia_db</artifactId>
-    <version>0.9.1</version>
+    <groupId>com.onroute</groupId>
+    <artifactId>database</artifactId>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -15,9 +15,12 @@
         <complianceLevel>${java.version}</complianceLevel>
 
         <neo4j.version>2.3.1</neo4j.version>
+        <neo4j.ogm.version>2.0.1</neo4j.ogm.version>
+        <websockets.version>0.9.1</websockets.version>
         <jersey.version>1.9</jersey.version>
-        
+
         <junit.version>4.12</junit.version>
+        <aspectj.version>1.8.7</aspectj.version>
 
         <graphaware.version>2.3.2.37</graphaware.version>
         <graphaware.reco.version>2.3.2.37.10</graphaware.reco.version>
@@ -26,22 +29,6 @@
 
     <dependencies>
         <!--Server Libraries-->
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>4.2.4.RELEASE</version>
-        </dependency>
-
 
         <!--Neo4J Core-->
         <dependency>
@@ -53,17 +40,21 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-enterprise</artifactId>
             <version>${neo4j.version}</version>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.neo4j.app</groupId>
             <artifactId>neo4j-server-enterprise</artifactId>
             <version>${neo4j.version}</version>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
+            <type>test-jar</type>
             <version>${neo4j.version}</version>
         </dependency>
+
 
         <!--Graphware & Neo4 spatial - Neo4J extra libraries-->
         <dependency>
@@ -95,13 +86,6 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-spatial</artifactId>
             <version>0.15-neo4j-2.2.6</version>
-        </dependency>
-
-        <!--Websockets-->
-        <dependency>
-            <groupId>de.oliverwetterau.neo4j</groupId>
-            <artifactId>websockets-server</artifactId>
-            <version>0.9.0</version>
         </dependency>
 
 
@@ -163,12 +147,6 @@
 
         <!--Tests-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.graphaware.neo4j</groupId>
             <artifactId>tests</artifactId>
             <version>${graphaware.version}</version>
@@ -183,7 +161,7 @@
     </dependencies>
 
     <build>
-        <finalName>Neo4jServer</finalName>
+        <finalName>Onroute</finalName>
         
         <plugins>
             <plugin>
@@ -196,6 +174,38 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-shade-plugin</artifactId>-->
+                <!--<version>2.4.2</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>shade</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<transformers>-->
+                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+                                    <!--<manifestEntries>-->
+                                        <!--<Main-Class>com.backseatmedia.database.OnrouteKernelExtensionFactory</Main-Class>-->
+                                    <!--</manifestEntries>-->
+                                <!--</transformer>-->
+                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+                                    <!--<resource>META-INF/spring.handlers</resource>-->
+                                <!--</transformer>-->
+                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+                                    <!--<resource>META-INF/spring.schemas</resource>-->
+                                <!--</transformer>-->
+                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+                                    <!--<resource>META-INF/spring.factories</resource>-->
+                                <!--</transformer>-->
+                            <!--</transformers>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
