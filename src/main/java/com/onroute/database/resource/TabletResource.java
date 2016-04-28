@@ -19,16 +19,13 @@ public class TabletResource extends BaseResource {
     Layer locationLayer;
 
 
-    public TabletResource() {
-        super();
-
-        // Create the tablet_location spatial layer if it does not exist.
-        if (spatialDb.getLayer("tablet_location") == null) {
+    private Layer getLocationLayer() {
+        if (locationLayer == null) {
             System.out.printf("Created 'tablet_location' spatial index");
-            spatialDb.createSimplePointLayer("tablet_location");
+            locationLayer = spatialDb.createSimplePointLayer("tablet_location");
         }
 
-        locationLayer = spatialDb.getLayer("tablet_location");
+        return locationLayer;
     }
 
 
@@ -48,7 +45,7 @@ public class TabletResource extends BaseResource {
      * @return TabletModel instance of the tablet.
      * @throws NotFoundException if the tablet could not be found.
      */
-    public TabletModel getByMAC(String mac) throws NotFoundException {
+    private TabletModel getByMAC(String mac) throws NotFoundException {
         Node node;
         TabletModel model = new TabletModel();
 
@@ -74,7 +71,7 @@ public class TabletResource extends BaseResource {
      *
      * @return TabletModel instance of the tablet.
      */
-    public TabletModel checkin(TabletModel model) {
+    private TabletModel checkin(TabletModel model) {
         try (Transaction tx = graphDb.beginTx()) {
             Node node = graphDb.findNode(Labels.Tablet, "mac", model.getMac());
 
@@ -99,7 +96,7 @@ public class TabletResource extends BaseResource {
      * @param model The tablet that is sending the heartbeat
      * @return TabletModel instance of the tablet.
      */
-    public TabletModel heartbeat(TabletModel model) {
+    private TabletModel heartbeat(TabletModel model) {
         try (Transaction tx = graphDb.beginTx()) {
             Node locationNode = graphDb.createNode(Labels.Location);
             locationNode.setProperty("latitude", model.getStatus().getLatitude());
@@ -113,7 +110,7 @@ public class TabletResource extends BaseResource {
             relationship.setProperty("createdAt", new Date().getTime());
 
             // Finally, add the node to the spatial index
-            spatialDb.getLayer("tablet_location").add(locationNode);
+            getLocationLayer().add(locationNode);
             tx.success();
         }
         return model;

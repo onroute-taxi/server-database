@@ -9,6 +9,8 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import org.neo4j.graphdb.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.net.InetSocketAddress;
@@ -27,8 +29,11 @@ import java.util.MissingFormatArgumentException;
  * TODO: Have serialization to happen directly.
  */
 public class WebsocketServer extends WebSocketServer {
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
+
     @Inject Gson gson;
     @Inject Map<String, ResourceHandler> resourceHandlers;
+
 
     /**
      * Constructor to initialize the websocket properly
@@ -41,13 +46,8 @@ public class WebsocketServer extends WebSocketServer {
         super(address);
         App.inject(this);
 
-        System.out.println(String.format("websocket initialized on %s:%d", address.getHostString(),
+        logger.info(String.format("websocket initialized on %s:%d", address.getHostString(),
                 address.getPort()));
-    }
-
-
-    void debug(String message) {
-        if (App.DEBUG) System.out.println(message);
     }
 
 
@@ -56,7 +56,7 @@ public class WebsocketServer extends WebSocketServer {
      */
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
-        debug("socket opened");
+        logger.debug("socket opened");
     }
 
 
@@ -65,7 +65,7 @@ public class WebsocketServer extends WebSocketServer {
      */
     @Override
     public void onClose(WebSocket webSocket, int code, String reason, boolean remote) {
-        debug("socket closed");
+        logger.debug("socket closed");
     }
 
 
@@ -74,7 +74,7 @@ public class WebsocketServer extends WebSocketServer {
      */
     @Override
     public void onMessage(WebSocket webSocket, String message) {
-        debug("got message: " + message);
+        logger.debug("got message: " + message);
         Request request = gson.fromJson(message, Request.class);
 
         // Erase all the commands.
@@ -103,7 +103,7 @@ public class WebsocketServer extends WebSocketServer {
      */
     @Override
     public void onError(WebSocket webSocket, Exception exception) {
-        debug("error: " + exception.getMessage());
+        logger.debug("error: " + exception.getMessage());
         exception.printStackTrace();
     }
 

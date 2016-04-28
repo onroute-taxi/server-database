@@ -15,9 +15,9 @@
         <complianceLevel>${java.version}</complianceLevel>
 
         <neo4j.version>2.3.1</neo4j.version>
-        <neo4j.ogm.version>2.0.1</neo4j.ogm.version>
         <websockets.version>0.9.1</websockets.version>
         <jersey.version>1.9</jersey.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
 
         <junit.version>4.12</junit.version>
         <aspectj.version>1.8.7</aspectj.version>
@@ -35,23 +35,25 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
             <version>${neo4j.version}</version>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-enterprise</artifactId>
-            <version>${neo4j.version}</version>
+        <!--<dependency>-->
+            <!--<groupId>org.neo4j</groupId>-->
+            <!--<artifactId>neo4j-enterprise</artifactId>-->
+            <!--<version>${neo4j.version}</version>-->
+            <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.neo4j.app</groupId>-->
+            <!--<artifactId>neo4j-server-enterprise</artifactId>-->
+            <!--<version>${neo4j.version}</version>-->
             <!--<scope>provided</scope>-->
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j.app</groupId>
-            <artifactId>neo4j-server-enterprise</artifactId>
-            <version>${neo4j.version}</version>
-            <!--<scope>provided</scope>-->
-        </dependency>
+        <!--</dependency>-->
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
             <type>test-jar</type>
+            <scope>provided</scope>
             <version>${neo4j.version}</version>
         </dependency>
 
@@ -86,44 +88,25 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-spatial</artifactId>
             <version>0.15-neo4j-2.2.6</version>
+            <scope>provided</scope>
         </dependency>
-
-
-        <!-- Misc. utilities) -->
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>14.0.1</version>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-neo4j</artifactId>
+            <version>${spring.version}</version>
         </dependency>
+
+
+        <!--Lombok for boilerplating code-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.6</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-        </dependency>
 
 
         <!-- JSON pre-processing -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.3.0</version>
-        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -158,6 +141,12 @@
             <version>${neo4j.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -175,37 +164,32 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-shade-plugin</artifactId>-->
-                <!--<version>2.4.2</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>shade</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<transformers>-->
-                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">-->
                                     <!--<manifestEntries>-->
-                                        <!--<Main-Class>OnrouteKernelExtensionFactory</Main-Class>-->
+                                        <!--<Main-Class>com.onroute.database.OnrouteKernelExtensionFactory</Main-Class>-->
                                     <!--</manifestEntries>-->
                                 <!--</transformer>-->
                                 <!--<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-                                    <!--<resource>META-INF/spring.handlers</resource>-->
+                                    <!--<resource>META-INF/services/org.neo4j.kernel.extension.KernelExtensionFactory</resource>-->
                                 <!--</transformer>-->
-                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-                                    <!--<resource>META-INF/spring.schemas</resource>-->
-                                <!--</transformer>-->
-                                <!--<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-                                    <!--<resource>META-INF/spring.factories</resource>-->
-                                <!--</transformer>-->
-                            <!--</transformers>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

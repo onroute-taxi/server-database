@@ -18,6 +18,6 @@ public abstract class BaseResource implements ResourceHandler {
 
 
     public BaseResource() {
-        App.getApplicationGraph().inject(this);
+        App.inject(this);
     }
 }

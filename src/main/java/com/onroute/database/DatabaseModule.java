@@ -1,22 +1,19 @@
 package com.onroute.database;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.onroute.database.resource.*;
 import com.onroute.database.resource.base.BaseResource;
 import com.onroute.database.resource.base.ResourceHandler;
 import com.onroute.database.websocket.WebsocketServer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dagger.Module;
 import dagger.Provides;
 import org.neo4j.gis.spatial.SpatialDatabaseService;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.server.CommunityBootstrapper;
 
 import javax.inject.Singleton;
 import java.io.File;
-import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -48,8 +45,15 @@ public class DatabaseModule {
     static String WEBSOCKET_IP = "0.0.0.0";
     static int WEBSOCKET_PORT = 1414;
 
-    // Instance of Neo4j database
-    CommunityBootstrapper bootstraper;
+    final GraphDatabaseService graphDatabaseService;
+    final SpatialDatabaseService spatialDatabaseService;
+
+
+    public DatabaseModule(GraphDatabaseService graphDatabaseService,
+                          SpatialDatabaseService spatialDatabaseService) {
+        this.graphDatabaseService = graphDatabaseService;
+        this.spatialDatabaseService = spatialDatabaseService;
+    }
 
 
     @Provides
@@ -64,43 +68,14 @@ public class DatabaseModule {
     @Provides
     @Singleton
     GraphDatabaseService providesGraphDB() {
-        GraphDatabaseService graphDb;
-
-        // TODO: Get rid of the community bootstraper and boot the community server directly!
-        if (ENABLE_COMMUNITY_SERVER && false) {
-            // This hack tries to start the community server and also tries to retrieve the GraphDB service from it.
-            bootstraper = new CommunityBootstrapper();
-            CommunityBootstrapper.start(bootstraper, new String[]{});
-            graphDb = bootstraper.getServer().getDatabase().getGraph();
-        } else {
-            // Initialize a GraphDB instance
-            graphDb = new GraphDatabaseFactory()
-                    .newEmbeddedDatabaseBuilder(STOREDIR)
-                    .loadPropertiesFromFile(PATHTOCONFIG.getAbsolutePath())
-                    .newGraphDatabase();
-        }
-
-        return graphDb;
+        return graphDatabaseService;
     }
 
 
     @Provides
     @Singleton
-    SpatialDatabaseService providesSpatialDB(GraphDatabaseService graphDb) {
-        return new SpatialDatabaseService(graphDb);
-    }
-
-
-    @Provides
-    @Singleton
-    WebsocketServer providesWebsocketServer() {
-        try {
-            InetSocketAddress websocket_address = new InetSocketAddress(WEBSOCKET_IP, WEBSOCKET_PORT);
-            return new WebsocketServer(websocket_address);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    SpatialDatabaseService providesSpatialDB() {
+        return spatialDatabaseService;
     }
 
 
