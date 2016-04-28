@@ -1,0 +1,36 @@
+package com.onroute.database.enums.interests;
+
+
+public enum MovieInterest {
+    ACTION_ADVENTURE,
+    ACTION_COMEDY,
+    ANIMATION,
+    ANIME,
+    BALLET,
+    COMEDY,
+    COMEDY_DRAMA,
+    DANCE_BALLET,
+    DOCUMENTARY,
+    DRAMA,
+    EXERCISE,
+    FAMILY,
+    FANTASY,
+    FOREIGN,
+    GENRE,
+    HORROR,
+    LATE_NIGHT,
+    MUSIC,
+    MUSICAL,
+    MYSTERY_SUSPENSE,
+    OPERA,
+    SCIFI,
+    SILENT,
+    SPECIAL_INTEREST,
+    SPORTS,
+    SUSPENSE_THRILLER,
+    THRILLER,
+    TV_CLASSICS,
+    VAR,
+    WAR,
+    WESTERN
+}

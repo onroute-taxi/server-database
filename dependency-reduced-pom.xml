@@ -29,7 +29,7 @@
               <transformers>
                 <transformer>
                   <manifestEntries>
-                    <Main-Class>com.backseatmedia.database.OnrouteKernelExtensionFactory</Main-Class>
+                    <Main-Class>com.onroute.database.OnrouteKernelExtensionFactory</Main-Class>
                   </manifestEntries>
                 </transformer>
                 <transformer>
