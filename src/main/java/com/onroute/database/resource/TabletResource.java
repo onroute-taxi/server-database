@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class TabletResource extends BaseResource {
     private static final Logger logger = LoggerFactory.getLogger(TabletResource.class);
-    Layer locationLayer;
+    private Layer locationLayer;
 
 
     private Layer getLocationLayer() {

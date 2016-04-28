@@ -4,6 +4,7 @@ import com.onroute.database.websocket.WebsocketServer;
 import dagger.ObjectGraph;
 import org.neo4j.gis.spatial.SpatialDatabaseService;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.helpers.HostnamePort;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,16 +17,14 @@ import java.net.InetSocketAddress;
 public class OnrouteKernelExtension implements Lifecycle {
     private static final Logger logger = LoggerFactory.getLogger(OnrouteKernelExtension.class);
 
-    // Settings for the websocket server
-    static String WEBSOCKET_IP = "0.0.0.0";
-    static int WEBSOCKET_PORT = 1414;
-
     WebsocketServer websocketServer;
     ObjectGraph applicationGraph;
+    HostnamePort hostnamePort;
 
 
     public OnrouteKernelExtension(GraphDatabaseService graphDatabaseService,
-                                  SpatialDatabaseService spatialDatabaseService) {
+                                  SpatialDatabaseService spatialDatabaseService, HostnamePort hostnamePort) {
+        this.hostnamePort = hostnamePort;
 
         // First, create the dependency graph
         applicationGraph = ObjectGraph.create().plus(
@@ -41,7 +40,7 @@ public class OnrouteKernelExtension implements Lifecycle {
 
     @Override public void start() throws Throwable {
         // Initialize the websocker server
-        InetSocketAddress websocket_address = new InetSocketAddress(WEBSOCKET_IP, WEBSOCKET_PORT);
+        InetSocketAddress websocket_address = new InetSocketAddress(hostnamePort.getHost(), hostnamePort.getPort());
         websocketServer = new WebsocketServer(websocket_address);
 
         logger.debug("starting websocket server");
