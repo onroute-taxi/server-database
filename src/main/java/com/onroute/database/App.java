@@ -2,17 +2,21 @@ package com.onroute.database;
 
 
 import dagger.ObjectGraph;
-import lombok.Setter;
+import org.neo4j.gis.spatial.SpatialDatabaseService;
+import org.neo4j.graphdb.GraphDatabaseService;
 
 
 /**
- * This class is entry point for the server. Here we setup two things. The Neo4J community server and the websocket
- * server.
- * <p/>
- * The real magic, of course happens at the WebsocketServer. This class is used to simply initialize stuff.
+ * This class is where the Dagger depedency graph is initialized.
  */
 public class App {
-    @Setter static ObjectGraph applicationGraph;
+    static ObjectGraph applicationGraph;
+
+
+    public static void init(GraphDatabaseService graphDatabaseService, SpatialDatabaseService spatialDatabaseService) {
+        applicationGraph = ObjectGraph.create().plus(
+                new DatabaseModule(graphDatabaseService, spatialDatabaseService));
+    }
 
 
     public static <T> T inject(T instance) {

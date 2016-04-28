@@ -13,7 +13,6 @@ import org.neo4j.gis.spatial.SpatialDatabaseService;
 import org.neo4j.graphdb.GraphDatabaseService;
 
 import javax.inject.Singleton;
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -36,15 +35,6 @@ import java.util.Map;
         library = true
 )
 public class DatabaseModule {
-    // Variables for the graph database.
-    final File STOREDIR = new File("data/graph.graphDb");
-    final File PATHTOCONFIG = new File("config/neo4j.properties");
-    final Boolean ENABLE_COMMUNITY_SERVER = true;
-
-    // Settings for the websocket server
-    static String WEBSOCKET_IP = "0.0.0.0";
-    static int WEBSOCKET_PORT = 1414;
-
     final GraphDatabaseService graphDatabaseService;
     final SpatialDatabaseService spatialDatabaseService;
 

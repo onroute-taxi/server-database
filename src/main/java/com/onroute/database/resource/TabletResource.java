@@ -25,7 +25,8 @@ public class TabletResource extends BaseResource {
     private Layer getLocationLayer() {
         if (locationLayer == null) {
             logger.debug("created 'tablet_location' spatial index");
-            locationLayer = spatialDb.createSimplePointLayer("tablet_location");
+            spatialDb.createSimplePointLayer("tablet_location");
+            locationLayer = spatialDb.getLayer("tablet_location");
         }
 
         return locationLayer;

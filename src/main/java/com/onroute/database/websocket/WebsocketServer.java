@@ -26,7 +26,7 @@ import java.util.MissingFormatArgumentException;
  * <p/>
  * The response and request is serialized to JSON.
  * <p/>
- * TODO: Have serialization to happen directly.
+ * TODO: Have serialization to happen directly. through binary format
  */
 public class WebsocketServer extends WebSocketServer {
     private static final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
@@ -44,6 +44,7 @@ public class WebsocketServer extends WebSocketServer {
     public WebsocketServer(InetSocketAddress address)
             throws UnknownHostException {
         super(address);
+
         App.inject(this);
 
         logger.info(String.format("websocket initialized on %s:%d", address.getHostString(),

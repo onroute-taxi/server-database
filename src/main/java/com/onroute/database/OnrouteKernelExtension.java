@@ -1,7 +1,6 @@
 package com.onroute.database;
 
 import com.onroute.database.websocket.WebsocketServer;
-import dagger.ObjectGraph;
 import org.neo4j.gis.spatial.SpatialDatabaseService;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.helpers.HostnamePort;
@@ -12,44 +11,47 @@ import org.slf4j.LoggerFactory;
 import java.net.InetSocketAddress;
 
 /**
+ * This is the entry point of the application. The Neo4J server launches this class when the kernel loads. This
+ * lifecycle class is mainly used for starting/stopping the {@link WebsocketServer}.
+ *
+ * The {@link WebsocketServer} is where the main action happens.
+ *
  * @author steven.enamakel@gmail.com
  */
 public class OnrouteKernelExtension implements Lifecycle {
     private static final Logger logger = LoggerFactory.getLogger(OnrouteKernelExtension.class);
 
-    WebsocketServer websocketServer;
-    ObjectGraph applicationGraph;
-    HostnamePort hostnamePort;
+    private WebsocketServer websocketServer;
+    private HostnamePort hostnamePort;
+    private GraphDatabaseService graphDatabaseService;
+    private SpatialDatabaseService spatialDatabaseService;
 
 
     public OnrouteKernelExtension(GraphDatabaseService graphDatabaseService,
                                   SpatialDatabaseService spatialDatabaseService, HostnamePort hostnamePort) {
         this.hostnamePort = hostnamePort;
-
-        // First, create the dependency graph
-        applicationGraph = ObjectGraph.create().plus(
-                new DatabaseModule(graphDatabaseService, spatialDatabaseService));
-        App.setApplicationGraph(applicationGraph);
+        this.graphDatabaseService = graphDatabaseService;
+        this.spatialDatabaseService = spatialDatabaseService;
     }
 
 
     @Override public void init() throws Throwable {
-
+        App.init(graphDatabaseService, spatialDatabaseService);
     }
 
 
     @Override public void start() throws Throwable {
-        // Initialize the websocker server
-        InetSocketAddress websocket_address = new InetSocketAddress(hostnamePort.getHost(), hostnamePort.getPort());
-        websocketServer = new WebsocketServer(websocket_address);
+        logger.info("initializing the websocket server at " + hostnamePort.toString());
+        InetSocketAddress websocketAddress = new InetSocketAddress(hostnamePort.getHost(), hostnamePort.getPort());
+        websocketServer = new WebsocketServer(websocketAddress);
 
-        logger.debug("starting websocket server");
+        logger.info("starting the websocket server");
         websocketServer.start();
     }
 
 
     @Override public void stop() throws Throwable {
-        logger.debug("stopping websocket server");
+        logger.info("stopping the websocket server");
         websocketServer.stop();
     }
 
