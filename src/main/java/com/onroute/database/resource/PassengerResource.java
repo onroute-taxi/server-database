@@ -58,7 +58,6 @@ public class PassengerResource extends BaseResource {
 //                String json =
                 session.addCommand(TabletActions.UPDATE_MOVIE_LIST,
                         gson.toJson(mediaResource.getRecommendedMovies(session)));
-                System.out.println("hit1");
                 break;
 
             case "get_advertisement":

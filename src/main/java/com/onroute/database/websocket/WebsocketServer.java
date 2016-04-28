@@ -86,7 +86,7 @@ public class WebsocketServer extends WebSocketServer {
 
         // Return the output json to the websocketServer
         String output = gson.toJson(responseModel);
-        System.out.println("sent: " + output);
+        logger.debug("sent: " + output);
         try {
             webSocket.send(output);
         } catch (MissingFormatArgumentException e) {

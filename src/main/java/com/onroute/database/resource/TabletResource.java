@@ -8,6 +8,8 @@ import com.onroute.database.resource.base.BaseResource;
 import com.onroute.database.websocket.Response;
 import org.neo4j.gis.spatial.Layer;
 import org.neo4j.graphdb.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
@@ -16,12 +18,13 @@ import java.util.Date;
  * This service endpoint is used to interact with data on the Tablet.
  */
 public class TabletResource extends BaseResource {
+    private static final Logger logger = LoggerFactory.getLogger(TabletResource.class);
     Layer locationLayer;
 
 
     private Layer getLocationLayer() {
         if (locationLayer == null) {
-            System.out.printf("Created 'tablet_location' spatial index");
+            logger.debug("created 'tablet_location' spatial index");
             locationLayer = spatialDb.createSimplePointLayer("tablet_location");
         }
 

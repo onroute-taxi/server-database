@@ -15,6 +15,8 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +29,8 @@ import java.util.List;
  * This resource also uses a recommendation engine of it's own to recommend content.
  */
 public class MediaResource extends BaseResource {
+    private static final Logger logger = LoggerFactory.getLogger(MediaResource.class);
+
     MovieRecommendationEngine movieRecommendationEngine = new MovieRecommendationEngine();
 
 
@@ -88,14 +92,14 @@ public class MediaResource extends BaseResource {
             PassengerModel passenger = session.getPassenger();
             Node passengerNode = passenger.getNode(graphDb);
 
-            System.out.println("getting recommendations " + passengerNode.toString());
+            logger.debug("getting recommendations " + passengerNode.toString());
 
             // Call the Movies recommendation engines!
             List<Recommendation<Node>> movieRecommendations;
             movieRecommendations = movieRecommendationEngine.recommend(passengerNode,
                     new SimpleConfig(MAX_MOVIES));
 
-            System.out.println("got recommendations" + movieRecommendations.size());
+            logger.debug("got recommendations" + movieRecommendations.size());
 
             // Take every recommendation and put it into a model so that it can be converted into
             // JSON.
