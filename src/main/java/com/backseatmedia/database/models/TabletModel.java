@@ -6,6 +6,7 @@ import com.backseatmedia.database.enums.neo4j.RelationshipTypes;
 import com.backseatmedia.database.models.base.Neo4jModel;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.neo4j.graphdb.*;
 
 
@@ -14,6 +15,7 @@ import org.neo4j.graphdb.*;
  * <p/>
  * Created by Steven Enamakel on 12/2/15.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class TabletModel extends Neo4jModel {
     @Expose String device;
@@ -74,12 +76,15 @@ public class TabletModel extends Neo4jModel {
     public Node getLocationChangesetNode(GraphDatabaseService db) {
         Node tabletNode = this.getNode(db);
 
+        if (tabletNode == null) return null;
+
         // Find the appropriate changeset node!
         for (Relationship relationship : tabletNode.getRelationships(Direction.OUTGOING,
                 RelationshipTypes.HAS_CHANGESET)) {
             Node changesetNode = relationship.getOtherNode(tabletNode);
             if (changesetNode.getProperty("type").equals("location")) return changesetNode;
         }
+
 
         // If the node was not found then we create it!
         Node changesetNode = db.createNode(Labels.Changeset);

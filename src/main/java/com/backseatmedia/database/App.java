@@ -56,6 +56,7 @@ public class App {
             }
         });
 
+
         // Start the websocket server!
         try {
             app.websocketServer.start();

@@ -4,6 +4,7 @@ import com.backseatmedia.database.enums.DestinationType;
 import com.backseatmedia.database.models.base.Neo4jModel;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotInTransactionException;
@@ -15,6 +16,7 @@ import org.neo4j.graphdb.NotInTransactionException;
  * A journey is used to represent a journey a passenger takes. It takes care of tracking the user's location and details
  * about the trip.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class JourneyModel extends Neo4jModel {
     @Expose long createdAt;

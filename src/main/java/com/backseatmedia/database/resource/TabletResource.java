@@ -125,7 +125,7 @@ public class TabletResource extends BaseResource {
      */
     @Override
     public Response handleRequest(String function, SessionModel session, String data) throws Exception {
-        TabletModel tablet = null;
+        TabletModel tablet;
         switch (function) {
             case "getByMAC":
                 tablet = getByMAC(session.getTablet().getMac());

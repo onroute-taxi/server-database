@@ -30,7 +30,6 @@ public class WebsocketServer extends WebSocketServer {
     @Inject Gson gson;
     @Inject Map<String, ResourceHandler> resourceHandlers;
 
-
     /**
      * Constructor to initialize the websocket properly
      *

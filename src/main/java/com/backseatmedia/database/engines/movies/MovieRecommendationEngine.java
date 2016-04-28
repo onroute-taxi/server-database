@@ -6,6 +6,7 @@ import com.graphaware.reco.generic.filter.BlacklistBuilder;
 import org.neo4j.graphdb.Node;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -25,7 +26,7 @@ public class MovieRecommendationEngine extends TopLevelDelegatingRecommendationE
 
     @Override
     protected List<BlacklistBuilder<Node, Node>> blacklistBuilders() {
-        return Arrays.<BlacklistBuilder<Node, Node>>asList(
+        return Collections.<BlacklistBuilder<Node, Node>>singletonList(
                 new WatchedMovieBlacklists()
         );
     }

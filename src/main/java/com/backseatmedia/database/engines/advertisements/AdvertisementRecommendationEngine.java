@@ -6,6 +6,7 @@ import com.graphaware.reco.generic.post.PostProcessor;
 import org.neo4j.graphdb.Node;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
 public class AdvertisementRecommendationEngine extends TopLevelDelegatingRecommendationEngine<Node, SessionModel> {
     @Override
     protected List<PostProcessor<Node, SessionModel>> postProcessors() {
-        return Arrays.<PostProcessor<Node, SessionModel>>asList(
+        return Collections.<PostProcessor<Node, SessionModel>>singletonList(
                 new RewardForLocation()
         );
     }

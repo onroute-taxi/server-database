@@ -21,7 +21,7 @@ public class SessionModel {
 
 
     public SessionModel() {
-        commands = new ArrayList<Command>();
+        commands = new ArrayList<>();
     }
 
 

@@ -3,8 +3,6 @@ package com.backseatmedia.database.websocket;
 import com.backseatmedia.database.models.SessionModel;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 
 /**

@@ -3,7 +3,6 @@ package com.backseatmedia.database.websocket;
 import com.backseatmedia.database.models.SessionModel;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
-import lombok.Setter;
 
 /**
  * This class represents a Response. This is what is sent back to the Websocket client.

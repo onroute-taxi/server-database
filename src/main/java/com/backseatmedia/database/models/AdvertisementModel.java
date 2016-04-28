@@ -11,6 +11,7 @@ import com.backseatmedia.database.enums.passenger.Phone;
 import com.backseatmedia.database.models.base.Neo4jModel;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotInTransactionException;
@@ -21,6 +22,7 @@ import java.util.List;
 /**
  * TODO: Have target time of day/week/month/season/year implemented.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class AdvertisementModel extends Neo4jModel {
     @Expose double funds;

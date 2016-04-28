@@ -12,6 +12,7 @@ import com.backseatmedia.database.enums.passenger.Phone;
 import com.backseatmedia.database.models.base.Neo4jModel;
 import com.google.gson.annotations.Expose;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotInTransactionException;
@@ -23,6 +24,7 @@ import java.util.List;
 /**
  * This model repesents a passenger.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class PassengerModel extends Neo4jModel {
     /* The MAC address and the phoneNumber are used to uniquely identify the passenger in the

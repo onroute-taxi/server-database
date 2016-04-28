@@ -67,7 +67,7 @@ public class DatabaseModule {
         GraphDatabaseService graphDb;
 
         // TODO: Get rid of the community bootstraper and boot the community server directly!
-        if (ENABLE_COMMUNITY_SERVER) {
+        if (ENABLE_COMMUNITY_SERVER && false) {
             // This hack tries to start the community server and also tries to retrieve the GraphDB service from it.
             bootstraper = new CommunityBootstrapper();
             CommunityBootstrapper.start(bootstraper, new String[]{});
