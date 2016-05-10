@@ -55,8 +55,7 @@ public class TabletModel extends Neo4jModel {
      */
     @Override
     public Node getNodeWeak(GraphDatabaseService db) throws NotInTransactionException {
-        node = db.findNode(Labels.Tablet, "mac", this.mac);
-        return node;
+        return db.findNode(Labels.Tablet, "mac", this.mac);
     }
 
 

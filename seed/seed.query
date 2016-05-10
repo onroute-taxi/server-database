@@ -1,15 +1,13 @@
-MATCH (p:Passenger), (m:Movie), (t:Tablet), (d:Device) DELETE p, m, d
-MATCH (p:Passenger) DELETE p
-MATCH (d:Device) DELETE d
-MATCH (j:Journey) DELETE j
+MATCH (a)-[r]-(b) DELETE r
+MATCH (a) DELETE a
 
 CREATE (p:Passenger {name: "John Doe", sex: "M", age: 20, joined: 1450671306522 })
 CREATE (j:Journey {sourceLatitude: 0, sourceLongitude: 20, createdAt: 1450671306522 })
 CREATE (m:Movie {name: "Spider Man 3", genre: ["Action", "Superhero"], duration: 600000})
 CREATE (d:Device {product:"samsung", model:"s6", device: "s6_edge", sdkVersion: 22, mac:"50:2e:5c:ed:5c:53"})
+CREATE (a:Advertisement {funds:100, costPerImpression: 1})
 
 MATCH (p:Passenger), (d:Device) CREATE p-[r:HAS_DEVICE]->d
-
 
 MATCH (p:Passenger), (m:Movie), (t:Tablet), (d:Device), (j:Journey)
   CREATE p-[r1:HAS_DEVICE]->d

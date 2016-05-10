@@ -35,7 +35,8 @@ public abstract class Neo4jModel implements Model {
         // If not found, then check by id!
         if (id > 0) return db.getNodeById(id);
 
-        // If there was no id set, then get the node from our 'weak' get.
+        // If there was no id set, then get the node from our 'weak' get. This function has to be implemented by the
+        // inheriting class.
         Node node = getNodeWeak(db);
 
         // Cache the node and return
@@ -71,6 +72,20 @@ public abstract class Neo4jModel implements Model {
         if (node != null && data != null) node.setProperty(property, data);
     }
 
+
+    /**
+     * This function is used to do a 'weak' get for a Node. It is weak, because it does not look in
+     * the cache nor does it fetch the node by id.
+     *
+     * Ideally, you would query the db using the id or the cache but if none of that exists, then you query using
+     * your own parameters. So this function should implement a query with those custom parameters. See implementations
+     * for examples.
+     *
+     * @param db The GraphDatabase instance to use for querying.
+     * @return The node that matches
+     * @throws NotInTransactionException Thrown if the function is not wrapped in a transaction.
+     */
+    protected abstract Node getNodeWeak(GraphDatabaseService db) throws NotInTransactionException;
 
     public String toJSON(Gson gson) {
         return gson.toJson(this);

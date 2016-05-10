@@ -1,4 +1,5 @@
-LOAD CSV FROM 'http://localhost:8000/movies-2.csv' AS line
+# You can make the csv accessible by running 'python -m http.server' in the current directory
+LOAD CSV FROM 'http://localhost:8000/movies.csv' AS line
 
 CREATE (:Movie {
   title: line[0],

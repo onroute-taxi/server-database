@@ -29,7 +29,7 @@ public class AdvertisementResource extends BaseResource {
     public Response handleRequest(String function, SessionModel session, String data) throws Exception {
         switch (function) {
             case "get":
-                AdvertisementModel ad = getInteractiveAd(session);
+                AdvertisementModel ad = suggestAdvertisement(session);
                 session.addCommand(TabletActions.SET_ADVERTISEMENT, ad.toJSON(gson));
                 break;
             case "watched":
@@ -49,19 +49,21 @@ public class AdvertisementResource extends BaseResource {
     /**
      * Given a particular session, this function should return the most relevant ad to the user.
      * This AD must be an interactive one.
-     * TODO: Call advertisement recommendation engine here..
+     *
      *
      * @param session The current session of the tablet. Should contain information about the
      *                passenger as well.
      * @return The best suited ad for the user.
      */
-    AdvertisementModel getInteractiveAd(SessionModel session) {
+    AdvertisementModel suggestAdvertisement(SessionModel session) {
         AdvertisementModel bestAdvertisement = null;
 
         try (Transaction tx = graphDb.beginTx()) {
-            ResourceIterator<Node> iterator = graphDb.findNodes(Labels.Advertisement);
             Node passengerNode = session.getPassenger().getNode(graphDb);
 
+            // Begin iterating through every single advertisement on the server.
+            // TODO: Call advertisement recommendation engine here..
+            ResourceIterator<Node> iterator = graphDb.findNodes(Labels.Advertisement);
             while (iterator.hasNext()) {
                 Node advertisementNode = iterator.next();
 
@@ -77,6 +79,7 @@ public class AdvertisementResource extends BaseResource {
                                 RelationshipTypes.SEEN_ADVERTISEMENT))
                     continue;
 
+                // Now check if the ad's CPI is best we could find. (Ideally higher CPI = more profit).
                 if (bestAdvertisement == null || (bestAdvertisement.getCostPerImpression() <
                         model.getCostPerImpression()))
                     bestAdvertisement = model;

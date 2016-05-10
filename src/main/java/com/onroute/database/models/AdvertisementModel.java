@@ -118,7 +118,11 @@ public class AdvertisementModel extends Neo4jModel {
      */
     @Override
     public void clonePropertiesFromNode(Node node) throws NotInTransactionException {
+        funds = (Double) getNodeProperty(node, "funds");
+        costPerImpression = (Double) getNodeProperty(node, "costPerImpression");
+        data = (String) getNodeProperty(node, "data");
 
+        // TODO: Continue serializing the rest of the data
     }
 
 
@@ -127,7 +131,7 @@ public class AdvertisementModel extends Neo4jModel {
      */
     @Override
     public Node getNodeWeak(GraphDatabaseService db) throws NotInTransactionException {
-        return null;
+        return null; // Advertisements for now are always iterated. So we won't be fetching by a specific id.
     }
 
 
@@ -136,6 +140,8 @@ public class AdvertisementModel extends Neo4jModel {
      */
     @Override
     public void clonePropertiesToNode(Node node) throws NotInTransactionException {
-
+        setNodeProperty(node, "funds", funds);
+        setNodeProperty(node, "costPerImpression", costPerImpression);
+        setNodeProperty(node, "data", data);
     }
 }

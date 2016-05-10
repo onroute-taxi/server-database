@@ -1,0 +1,33 @@
+Labels
+======
+admin
+advertisement > An advertisement. Has variables that controls when and how the advertisement is displayed (like location, time, budget, view count etc..)
+advertiser > A person who delivers advertisements.
+app
+campaign
+content > Content is a superset of stuff that are not advertisments
+device > Any devices that interacts with the system. Usually devices represent the devices the passenger uses to connect with the system.
+driver > Are drivers who are using the service
+interactive_ad > Are simple HTML pages with CTA buttons.
+interest > Are interests which a passenger/content might have
+journey > A journey describes a journey a passenger is- taking. Keep a variable with the passenger and the driver whenever a user is travelling with a driver
+movies
+music
+offer
+passenger
+service
+tablet > This node represents a tablet.
+transaction > This node contains a transaction state. Transactions are made by the passenger
+tv show > Any tv show
+video > Any kind of video. Videos are a superset of tv shows/movies.
+
+
+Label Combinations
+==================
+app - advertisement > App can be advertisements as well
+interactive_ad - advertisement > Interactive ads are always advertisemnts
+music - advertisement > Music from artists can be advertisements with CTAs to purchase music.
+video - advertisement > Videos can be advertisements
+video - movie - (advertisement) > Movie trailers can be advertisements
+video - tv show - (advertisement) > Tv shows can be advertisements
+tablet - device > Tablets are also devices
